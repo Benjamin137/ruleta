@@ -1,0 +1,46 @@
+.ruleta {
+    display: flex;
+}
+
+.docena-numeros {
+    /*Generar columnas de 3 celdas*/
+    display: flex;
+}
+
+.docena-ceros {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.apuesta-docena {
+
+    width: 100%;
+    /*Alinear objetos*/
+    text-align: center;
+    background-color: green;
+
+    border: 1.5px solid white;
+    color: white;
+
+
+}
+
+.celda {
+    border: 1.5px solid white;
+    padding: 15px;
+    color: white;
+    font-size: 20px;
+}
+
+.verde {
+    background-color: green;
+}
+
+.rojo {
+    background-color: red;
+}
+
+.negro {
+    background-color: black;
+}
