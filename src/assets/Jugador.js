@@ -10,6 +10,7 @@ class Jugador{
     }
 
     apostar(monto) {
+        console.log(`Apuesta realizada por ${this.nombre}: $${monto}`);
         if (monto > this.monto) {
             throw new Error("Monto apostado excede el saldo del jugador.");
         }
@@ -30,6 +31,10 @@ class Jugador{
         this._ultimaApuesta *= 2; // Doblar la apuesta
         return this._ultimaApuesta;
     }
+
+    getMonto() {
+        return this.monto;
+    }   
 }
 
 export default Jugador;

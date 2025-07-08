@@ -1,21 +1,20 @@
-import React, { useState } from 'react';
-import Ruleta_Americana from './assets/Ruleta_Americana';
+import React, { useEffect, useState } from 'react';
 import Jugador from './assets/Jugador';
-import { Button } from 'antd';
 import { Ruleta } from './Ruleta';
 
 const createJugador = (nombre, montoInicial) => {
-
-
+  return new Jugador(nombre, montoInicial);
 }
 
 
 function App() {
 
+  const jugador = createJugador('Jugador 1', 800);
+
   return (
     <>
       <div>
-        <Ruleta />
+        <Ruleta jugador={jugador} />
       </div>
     </>
   )
