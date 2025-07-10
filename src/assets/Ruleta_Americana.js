@@ -6,41 +6,20 @@ class Ruleta_Americana {
         color: null // Color del número actual
     };
 
-    _apuestas = {
-        color: {
-            monto: 0,
-            valor: null,
-            valores_validos: ["rojo", "negro"] // valores apostados
-        },
-        paridad: {
-            monto: 0,
-            valor: null, // valor apostado: "par", "impar"
-            valores_validos: ["par", "impar"] // valores apostados
-        },
-        alto_bajo: {
-            monto: 0,
-            valor: null, // valor apostado: "bajo" (1-18), "
-            valores_validos: ["bajo", "alto"] // valores apostados
-        },
-        docena: {
-            monto: 0,
-            valor: null, // valor apostado: 1, 2, 3 (1-12, 13-24, 25-36)
-            valores_validos: [1, 2, 3] // valores apostados
-        },
-        columna: {
-            monto: 0,
-            valor: null, // valor apostado: 1, 2, 3 (columna 1, 2, 3)  
-            valores_validos: [1, 2, 3] // valores apostados
-        },
-        numero: {
-            monto: 0,
-            valor: null // valor apostado: número del 0 al 36
-        }
 
-    };
+
 
     constructor() {
         this._numeros = this._generarNumeros();
+        this.apuestas_numeros = []; 
+        this._apuestas = {
+            color: { monto: 0, valor: null, valores_validos: ["rojo", "negro"] },
+            paridad: { monto: 0, valor: null, valores_validos: ["par", "impar"] },
+            alto_bajo: { monto: 0, valor: null, valores_validos: ["bajo", "alto"] },
+            docena: { monto: 0, valor: null, valores_validos: [1, 2, 3] },
+            columna: { monto: 0, valor: null, valores_validos: [1, 2, 3] },
+            numero: []
+        };
     }
 
     _generarNumeros() {
@@ -132,12 +111,10 @@ class Ruleta_Americana {
 
 
     apostarNumero(numero, monto) {
-        if (numero < 0 || numero > 36) {
-            throw new Error("Número inválido. Debe estar entre 0 y 36.");
-        }
-        this._apuestas.numero.monto += monto;
-        this._apuestas.numero.valor = numero; // Apostar a un número específico
+        this.apuestas_numeros.push({ valor: numero, monto: monto });
+        console.log(this.apuestas_numeros);
     }
+
 
     resultado() {
         if (!this._numeroActual) {
@@ -157,11 +134,15 @@ class Ruleta_Americana {
             columna: null
         };
 
+        console.log(this._apuestas.numero);
+
         // Verificar apuesta al número
-        if (this._apuestas.numero.valor == numero) {
-            resultados.numero = { ganado: true, monto: this._apuestas.numero.monto * 35 };
-        } else {
-            resultados.numero = { ganado: false, monto: 0 };
+        for (const apuesta of this._apuestas.numero) {
+            if (apuesta.valor === numero) {
+                resultados.numero = { ganado: true, monto: apuesta.monto * 35 }; // Ganancia 35 a 1
+            } else {
+                resultados.numero = { ganado: false, monto: 0 };
+            }
         }
 
         // Verificar apuesta de color
@@ -189,8 +170,8 @@ class Ruleta_Americana {
         if ((numero >= 1 && numero <= 12 && this._apuestas.docena.valor === 1) ||
             (numero >= 13 && numero <= 24 && this._apuestas.docena.valor === 2) ||
             (numero >= 25 && numero <= 36 && this._apuestas.docena.valor === 3)) {
-            
-                resultados.docena = { ganado: true, monto: this._apuestas.docena.monto * 3 };
+
+            resultados.docena = { ganado: true, monto: this._apuestas.docena.monto * 3 };
 
         } else {
             resultados.docena = { ganado: false, monto: 0 };
@@ -200,7 +181,7 @@ class Ruleta_Americana {
         const columnaIndex = (numero - 1) % 3 + 1; // Determina la columna del número
         if (this._apuestas.columna.valor === columnaIndex) {
             resultados.columna = { ganado: true, monto: this._apuestas.columna.monto * 3 };
-        }else {
+        } else {
             resultados.columna = { ganado: false, monto: 0 };
         }
 
